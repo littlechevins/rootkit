@@ -11,6 +11,7 @@
 #include <sys/lock.h>
 #include <sys/sx.h>
 #include <sys/mutex.h>
+#include <sys/sysproto.h>
 
 struct process_hiding_args {
 	pid_t p_pid;		/* process identifier */
