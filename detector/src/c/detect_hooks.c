@@ -85,7 +85,6 @@ main(int argc, char *argv[])
       call.sy_call =(sy_call_t *)(uintptr_t)nl[1].n_value;
       if (kvm_write(kd, addr, &call, sizeof(struct sysent))
       < 0) {
-        Chapter 7
         fprintf(stderr,"ERROR: %s\n",kvm_geterr(kd));
         exit(-1);
       }
