@@ -13,11 +13,19 @@
 #include <sys/sysent.h>
 #include <sys/kernel.h>
 #include <sys/systm.h>
-#include <sys/queue.h>
-#include <sys/lock.h>
-#include <sys/sx.h>
-#include <sys/mutex.h>
+#include <sys/syscall.h>
 #include <sys/sysproto.h>
+#include <sys/malloc.h>
+
+#include <sys/linker.h>
+#include <sys/lock.h>
+#include <sys/mutex.h>
+
+#include <vm/vm.h>
+#include <vm/vm_page.h>
+#include <vm/vm_map.h>
+
+#include <dirent.h>
 
 
 // #define ORIGINAL	"/sbin/hello"
