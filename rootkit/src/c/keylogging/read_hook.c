@@ -53,7 +53,7 @@ load(struct module *module, int cmd, void *arg)
 
 	case MOD_UNLOAD:
 		/* Change everything back to normal. */
-		sysent[SYS_read].sy_call = (sy_call_t *)read;
+		sysent[SYS_read].sy_call = (sy_call_t *)sys_read;
 		break;
 
 	default:
