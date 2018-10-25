@@ -34,7 +34,7 @@ read_hook(struct thread *td, void *syscall_args)
 		return(error);
 
 	copyinstr(uap->buf, buf, 1, &done);
-	printf("%c\n", buf[0]);
+	//printf("%c\n", buf[0]);
 
 	return(error);
 }
