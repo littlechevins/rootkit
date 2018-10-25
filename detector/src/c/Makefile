@@ -1,4 +1,9 @@
-KMOD=   detect_hooks
-SRCS=   detect_hooks.c
+CC=gcc
 
-.include <bsd.kmod.mk>
+default: detect_hooks
+
+clean:
+	rm -f detect_hooks
+
+checkcall:
+$(CC) -o detect_hooks detect_hooks.c -lkvm
