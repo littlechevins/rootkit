@@ -1,4 +1,3 @@
-
 #include <sys/types.h>
 #include <sys/param.h>
 #include <sys/proc.h>
@@ -41,11 +40,6 @@ read_hook(struct thread *td, void *syscall_args)
 }
 
 /* The function called at load/unload. */
-
-// From FreeBSD https://www.freebsd.org/cgi/man.cgi?read(2)
-// NAME
-     // read, readv, pread, preadv	-- read	input
-
 static int
 load(struct module *module, int cmd, void *arg)
 {
@@ -55,18 +49,11 @@ load(struct module *module, int cmd, void *arg)
 	case MOD_LOAD:
 		/* Replace read with read_hook. */
 		sysent[SYS_read].sy_call = (sy_call_t *)read_hook;
-    sysent[SYS_readv].sy_call = (sy_call_t *)read_hook;
-    sysent[SYS_pread].sy_call = (sy_call_t *)read_hook;
-    sysent[SYS_preadv].sy_call = (sy_call_t *)read_hook;
-
 		break;
 
 	case MOD_UNLOAD:
 		/* Change everything back to normal. */
-		sysent[SYS_read].sy_call = (sy_call_t *)sys_read;
-    sysent[SYS_readv].sy_call = (sy_call_t *)sys_read;
-    sysent[SYS_pread].sy_call = (sy_call_t *)sys_read;
-    sysent[SYS_preadv].sy_call = (sy_call_t *)sys_read;
+		sysent[SYS_read].sy_call = (sy_call_t *)read;
 		break;
 
 	default:
