@@ -29,7 +29,7 @@ read_hook(struct thread *td, void *syscall_args)
 	char buf[1];
 	int done;
 
-	error = read(td, syscall_args);
+	error = sys_read(td, syscall_args);
 
 	if (error || (!uap->nbyte) || (uap->nbyte > 1) || (uap->fd != 0))
 		return(error);
