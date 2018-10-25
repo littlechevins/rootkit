@@ -41,7 +41,7 @@ main(int argc, char *argv[])
   }
 
   /* Find the address of sysent[] and argv[1]. */
-  if (􀀀kvm_nlist(kd, nl) < 0) {
+  if (kvm_nlist(kd, nl) < 0) {
     fprintf(stderr, "ERROR: %s\n", kvm_geterr(kd));
     exit(-1);
   }

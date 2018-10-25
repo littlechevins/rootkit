@@ -1,4 +1,4 @@
-KMOD=   process_hiding
-SRCS=   process_hiding.c
+KMOD=   detect_hooks
+SRCS=   detect_hooks.c
 
 .include <bsd.kmod.mk>
