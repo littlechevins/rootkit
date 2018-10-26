@@ -1,4 +1,4 @@
-PROG=	p_s
+PROG=	fork
 NO_MAN=	noman
 
 install:

