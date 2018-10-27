@@ -1,4 +1,4 @@
-PROG=	fork
+PROG=	elevate
 NO_MAN=	noman
 
 install:

