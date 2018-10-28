@@ -10,8 +10,6 @@
 #include <sys/syscall.h>
 #include <sys/param.h>
 
-void usage();
-
 int
 main(int argc, char *argv[])
 {
@@ -100,13 +98,4 @@ main(int argc, char *argv[])
   }
 
   exit(0);
-}
-
-void
-usage()
-{
-  fprintf(stderr,"Usage:\ncheckcall [system call function] "
-  "[call number] <fix>\n\n");
-  fprintf(stderr, "For a list of system call numbers see "
-  "/sys/sys/syscall.h\n");
 }

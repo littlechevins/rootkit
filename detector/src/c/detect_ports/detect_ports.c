@@ -15,17 +15,15 @@
 #include <netinet/ip_var.h>
 #include <netinet/tcp_var.h>
 
-
 struct port_finding_args {
 	u_int16_t lport;	/* local port */
 };
 
-/* System call to hide an open port. */
-static int
-port_finding(struct thread *td, void *syscall_args)
+int
+main(int argc, char *argv[])
 {
 	struct port_finding_args *uap;
-	uap = (struct port_finding_args *)syscall_args;
+	uap = (struct port_finding_args *)argv[1];
 
 	struct inpcb *inpb;
 
@@ -47,39 +45,5 @@ port_finding(struct thread *td, void *syscall_args)
 
 	INP_INFO_WUNLOCK(&tcbinfo);
 
-	return(0);
+	exit(0);
 }
-
-/* The sysent for the new system call. */
-static struct sysent port_finding_sysent = {
-	1,			/* number of arguments */
-	port_finding		/* implementing function */
-};
-
-/* The offset in sysent[] where the system call is to be allocated. */
-static int offset = NO_SYSCALL;
-
-/* The function called at load/unload. */
-static int
-load(struct module *module, int cmd, void *arg)
-{
-	int error = 0;
-
-	switch (cmd) {
-	case MOD_LOAD:
-		uprintf("System call loaded at offset %d.\n", offset);
-		break;
-
-	case MOD_UNLOAD:
-		uprintf("System call unloaded from offset %d.\n", offset);
-		break;
-
-	default:
-		error = EOPNOTSUPP;
-		break;
-	}
-
-	return(error);
-}
-
-SYSCALL_MODULE(port_finding, &offset, &port_finding_sysent, load, NULL);
