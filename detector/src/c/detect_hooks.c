@@ -7,6 +7,8 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/sysent.h>
+#include <sys/syscall.h>
+#include <sys/param.h>
 
 void usage();
 
