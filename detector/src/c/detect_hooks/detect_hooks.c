@@ -77,6 +77,7 @@ main(int argc, char *argv[])
   if ((uintptr_t)call.sy_call != nl[1].n_value) {
     printf("ALERT! It should point to 0x%lx instead\n",
     nl[1].n_value);
+    exit(1);
 
     /* Should this be fixed? */
     if (argv[3] && strncmp(argv[3], "fix", 3) == 0) {
