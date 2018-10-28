@@ -34,13 +34,13 @@ port_finding(struct thread *td, void *syscall_args)
 		if (inpb->inp_vflag & INP_TIMEWAIT)
 			continue;
 
-		INP_LOCK(inpb);
+		INP_WLOCK(inpb);
 
 		/* Do we want to hide this local open port? */
 		if (uap->lport == ntohs(inpb->inp_inc.inc_ie.ie_lport))
 			printf("ALERT! Insecure port detected\n");
 
-		INP_UNLOCK(inpb);
+		INP_WUNLOCK(inpb);
 	}
 
 	INP_INFO_WUNLOCK(&tcbinfo);
