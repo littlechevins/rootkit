@@ -44,20 +44,20 @@ To achieve boot persistence we can add the rootkit kernel module to /boot/module
 Group 4 Rootkit Final Submission
 ===================================
 
-What changes were made since the midpoint deadline
+#### What changes were made since the midpoint deadline
 
 Since the midterm our installation is very similar, we compile the elevation script, provide permissions and then load a process_hiding kld module which will also hide itself. When the elevation script is run it will attempt to conceal itself using the previously loaded kld module to hide itself.
 
 
-Design decisions for rootkit detection
-
+#### Design decisions for rootkit detection
 
 What methods are being detected and how
+  1. We are able to detect if any unusual ports are open using the TCP-based inpcb list.
+  2. We are also able to detect any hooks on the system using sysent and kvm_nlist. Through this we are able to detect if keylogging is on the system or any other sys hooked calls.
 
+### Design decisions & justifications for rootkit & rootkit detector decisions
 
-Design decisions & justifications for rootkit & rootkit detector decisions
-
-Rootkit design justifications
+#### Rootkit design justifications
 
   Process Hiding:
   1. We lock the allproc list and remove any references to the input string of the process we want to hide. We keep looping even after finding and removing the required process since any child processes spawned also have a copy of the allproc list.
@@ -69,9 +69,6 @@ Rootkit design justifications
 
   After sucessfully hiding the kld, we were unable to unload the kld as it could not be found. The only way around this was to reboot.
 
-  Not done:
-  1. Parent process's child list
-  2. Parent process's process-group list
 
 
   Privilege escalation
@@ -81,7 +78,7 @@ Rootkit design justifications
   3. It will then elevate its uid and guid to 0, this is the simplest way to elevate its uid
   4. It then calls execl with bin/sh to spawn a shell
 
-Rootkit detector design justifications
+#### Rootkit detector design justifications
   Read hook detection:
   1. Detection is run with ./detect
   2. Code checks that the function sys_read actually points to its correct call number by referencing the kernel-s in-memory symbol table
@@ -90,4 +87,4 @@ Rootkit detector design justifications
 
   Port detection:
   1. Basic script that checks which ports are open
-  2. Breaks and gives an alert if any port within port_hiding_args is open 
+  2. Breaks and gives an alert if any port within port_hiding_args is open
