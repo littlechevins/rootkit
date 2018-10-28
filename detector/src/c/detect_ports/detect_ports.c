@@ -32,24 +32,16 @@ main(int argc, char *argv[])
 	uap = (struct port_finding_args *)argv[1];
 
 	struct inpcb *inpb;
-
-	INP_INFO_WLOCK(&tcbinfo);
-
 	/* Iterate through the TCP-based inpcb list. */
 	LIST_FOREACH(inpb, tcbinfo.ipi_listhead, inp_list) {
 		if (inpb->inp_vflag & INP_TIMEWAIT)
 			continue;
 
-		INP_WLOCK(inpb);
-
 		/* Do we want to hide this local open port? */
 		if (uap->lport == ntohs(inpb->inp_inc.inc_ie.ie_lport))
 			printf("ALERT! Insecure port detected\n");
 
-		INP_WUNLOCK(inpb);
 	}
-
-	INP_INFO_WUNLOCK(&tcbinfo);
 
 	exit(0);
 }

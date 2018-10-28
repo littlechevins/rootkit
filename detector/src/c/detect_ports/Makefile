@@ -1,5 +1,9 @@
+CC=gcc
 
-KMOD=	detect_ports
-SRCS=	detect_ports.c
+default: detect_ports
 
-.include <bsd.kmod.mk>
+clean:
+	rm -f detect_ports
+
+checkcall:
+$(CC) -o detect_ports detect_ports.c -lkvm
