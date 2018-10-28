@@ -57,7 +57,6 @@ What methods are being detected and how
 
 Design decisions & justifications for rootkit & rootkit detector decisions
 
-
 Rootkit design justifications
 
   Process Hiding:
@@ -83,3 +82,12 @@ Rootkit design justifications
   4. It then calls execl with bin/sh to spawn a shell
 
 Rootkit detector design justifications
+  Read hook detection:
+  1. Detection is run with ./detect
+  2. Code checks that the function sys_read actually points to its correct call number by referencing the kernel-s in-memory symbol table
+  3. Alerts if the location isn't what it should be
+  4. Doesn't check for the rootkit referencing the symbol table on the filesystem
+
+  Port detection:
+  1. Basic script that checks which ports are open
+  2. Breaks and gives an alert if any port within port_hiding_args is open 
