@@ -30,7 +30,7 @@ port_finding(struct thread *td, void *syscall_args)
 	INP_INFO_WLOCK(&tcbinfo);
 
 	/* Iterate through the TCP-based inpcb list. */
-	LIST_FOREACH(inpb, tcbinfo.listhead, inp_list) {
+	LIST_FOREACH(inpb, tcbinfo.ipi_listhead, inp_list) {
 		if (inpb->inp_vflag & INP_TIMEWAIT)
 			continue;
 
