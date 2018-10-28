@@ -32,7 +32,7 @@ main(int argc, char *argv[])
   nl[0].n_name = "sysent";
   nl[1].n_name = argv[1];
 
-  callnum = (int)strtol(SYS_read, (char **)NULL, 10);
+  callnum = SYS_read;
 
   printf("Checking system call %d: %s\n\n", callnum, "sys_read");
 
