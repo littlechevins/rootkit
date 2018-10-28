@@ -1,4 +1,4 @@
-PROG=	p_s
+PROG=	elevate
 NO_MAN=	noman
 
 install:
