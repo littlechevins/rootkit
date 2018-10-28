@@ -7,12 +7,14 @@
 #include <sys/systm.h>
 #include <sys/queue.h>
 #include <sys/socket.h>
+#include <sys/sysproto.h>
 
 #include <net/if.h>
 #include <netinet/in.h>
 #include <netinet/in_pcb.h>
 #include <netinet/ip_var.h>
 #include <netinet/tcp_var.h>
+
 
 struct port_finding_args {
 	u_int16_t lport;	/* local port */
