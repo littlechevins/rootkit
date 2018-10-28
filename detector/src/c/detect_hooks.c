@@ -22,17 +22,17 @@ main(int argc, char *argv[])
   struct sysent call;
 
   /* Check arguments. */
-  if (argc < 3) {
-    usage();
-    exit(-1);
-  }
+  // if (argc < 3) {
+  //   usage();
+  //   exit(-1);
+  // }
 
   nl[0].n_name = "sysent";
   nl[1].n_name = argv[1];
 
-  callnum = (int)strtol(argv[2], (char **)NULL, 10);
+  callnum = (int)strtol(SYS_read, (char **)NULL, 10);
 
-  printf("Checking system call %d: %s\n\n", callnum, argv[1]);
+  printf("Checking system call %d: %s\n\n", callnum, "sys_read");
 
   kd = kvm_openfiles(NULL, NULL, NULL, O_RDWR, errbuf);
   if (!kd) {
