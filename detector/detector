@@ -3,9 +3,9 @@
 MYPATH="`dirname \"$0\"`"
 MYPATH="`( cd \"$MYPATH\" && pwd )`"
 
-cc -o $MYPATH/src/c/detect_hooks $MYPATH/src/c/detect_hooks.c -lkvm
+cc -o $MYPATH/src/c/detect_hooks/detect_hooks $MYPATH/src/c/detect_hooks.c -lkvm
 
-kldload $MYPATH/src/c/detect_ports.ko
+kldload $MYPATH/src/c/detect_ports/detect_ports.ko
 
 $MYPATH/src/c/detect_hooks sys_read
 
